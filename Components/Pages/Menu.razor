@@ -1,9 +1,10 @@
 ﻿@page "/menu"
 @rendermode InteractiveServer
-
+@using Newtonsoft.Json
 
 
 @*Menu*@
+
 <h1>Nuestra Selecci&oacute;n de Pizzas</h1>
 @foreach (var pizza in Estado.Menu.Pizzas)
 {
@@ -33,7 +34,7 @@
 {
 	<h1 class="">Tu Pedido Actual</h1>
 	@foreach (var (pizza, pos) in Estado.Carrito.Ordenes.Select(
-						(id, pos) => (Estado.Menu.ObtenerPizza(id), pos)))
+								(id, pos) => (Estado.Menu.ObtenerPizza(id), pos)))
 	{
 		<div class="row mb-2">
 			<div class="col">
@@ -99,11 +100,7 @@
 	</fieldset>
 </EditForm>
 
-@*
-	<pre>
-		@ToJson()
-	</pre>
-*@
+
 @code {
 	private Estado Estado { get; } = new Estado();
 
@@ -130,5 +127,8 @@
 		Console.WriteLine("Realizando Pedido");
 	}
 
-	
+	private string ToJson()
+	{
+		return JsonConvert.SerializeObject(Estado);
+	}
 }
